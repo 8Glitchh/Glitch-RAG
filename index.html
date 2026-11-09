@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#0b0b10">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2325252f'/%3E%3Cstop offset='1' stop-color='%23111116'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='40' height='40' rx='10' fill='url(%23g)'/%3E%3Crect x='.6' y='.6' width='38.8' height='38.8' rx='9.4' fill='none' stroke='%23ffffff' stroke-opacity='.09' stroke-width='1.2'/%3E%3Cpath d='M19 12.5l5.4 5.7M19 27.5l5.4-5.7' stroke='%236f9f96' stroke-opacity='.45' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M19 20h5' stroke='%236f9f96' stroke-width='1.9'/%3E%3Crect x='7.5' y='10.3' width='11.5' height='4.4' rx='2.2' fill='%2355536a'/%3E%3Crect x='7.5' y='17.8' width='11.5' height='4.4' rx='2.2' fill='%23b9b7c6'/%3E%3Crect x='7.5' y='25.3' width='11.5' height='4.4' rx='2.2' fill='%2355536a'/%3E%3Ccircle cx='28.6' cy='20' r='4.6' fill='%236f9f96'/%3E%3Ccircle cx='28.6' cy='20' r='1.7' fill='%23111116'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2325252f'/%3E%3Cstop offset='1' stop-color='%23111116'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='40' height='40' rx='10' fill='url(%23g)'/%3E%3Crect x='.6' y='.6' width='38.8' height='38.8' rx='9.4' fill='none' stroke='%23ffffff' stroke-opacity='.09' stroke-width='1.2'/%3E%3Cpath d='M19 12.5l5.4 5.7M19 27.5l5.4-5.7' stroke='%23b388ff' stroke-opacity='.75' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M19 20h5' stroke='%232ee6a6' stroke-width='1.9'/%3E%3Crect x='7.5' y='10.3' width='11.5' height='4.4' rx='2.2' fill='%23b388ff' fill-opacity='.7'/%3E%3Crect x='7.5' y='17.8' width='11.5' height='4.4' rx='2.2' fill='%232ee6a6'/%3E%3Crect x='7.5' y='25.3' width='11.5' height='4.4' rx='2.2' fill='%23b388ff' fill-opacity='.7'/%3E%3Ccircle cx='28.6' cy='20' r='4.6' fill='%232ee6a6'/%3E%3Ccircle cx='28.6' cy='20' r='1.7' fill='%23111116'/%3E%3C/svg%3E">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,8 +25,8 @@
   <style>
     :root {
       --bg: #0b0b10;
-      --glow: rgba(111,159,150,0.06);
-      --glow-2: rgba(139,134,173,0.04);
+      --glow: rgba(46,230,166,0.05);
+      --glow-2: rgba(179,136,255,0.05);
       --dot: rgba(255,255,255,0.035);
       --surface-0: #0e0e14;
       --surface: #121218;
@@ -34,38 +34,42 @@
       --surface-3: #22222b;
       --line: rgba(255,255,255,0.065);
       --line-strong: rgba(255,255,255,0.12);
-      --text: #e2e1e8;
-      --text-2: #9d9bab;
-      --text-3: #686677;
+      --text: #e8e7ef;
+      --text-2: #a3a1b4;
+      --text-3: #6b6980;
 
-      --accent: #6f9f96;
-      --accent-2: #93b5ae;
-      --accent-ink: #0d1614;
-      --accent-soft: rgba(111,159,150,0.13);
-      --teal: #8e89ad;
-      --teal-soft: rgba(142,137,173,0.12);
-      --ok: #7fa98b;
-      --ok-soft: rgba(127,169,139,0.13);
-      --bad: #c0808a;
-      --bad-soft: rgba(192,128,138,0.13);
-      --warn: #bf9f68;
-      --warn-soft: rgba(191,159,104,0.12);
+      /* Vivid colours are for small things: text, icons, borders, thin bars.
+         Big filled areas (buttons, panels) use the dark --*-fill versions below. */
+      --accent: #2ee6a6;
+      --accent-2: #5ff0bd;
+      --accent-ink: #062a1e;
+      --accent-soft: rgba(46,230,166,0.10);
+      --accent-fill: #0f3a2c;
+      --accent-fill-hover: #134837;
+      --teal: #b388ff;
+      --teal-soft: rgba(179,136,255,0.12);
+      --ok: #4ade80;
+      --ok-soft: rgba(74,222,128,0.10);
+      --bad: #ff5c7a;
+      --bad-soft: rgba(255,92,122,0.10);
+      --warn: #ffb547;
+      --warn-soft: rgba(255,181,71,0.10);
 
       /* Code is always dark, in both themes */
       --code-bg: #0e0e13;
       --code-head: #15151b;
       --code-line: rgba(255,255,255,0.055);
-      --code-text: #d8d6e0;
+      --code-text: #e4e2ec;
       --code-dim: #4d4b5c;
       --code-border: rgba(255,255,255,0.065);
-      --t-kw: #a79dc6;
-      --t-fn: #88a7ba;
-      --t-bi: #88a7ba;
-      --t-cls: #c4b083;
-      --t-str: #92b29a;
-      --t-num: #c19883;
-      --t-com: #5e5c6e;
-      --t-self: #bb90a6;
+      --t-kw: #c792ea;
+      --t-fn: #ffcb6b;
+      --t-bi: #ff9e64;
+      --t-cls: #f78c6c;
+      --t-str: #a5e075;
+      --t-num: #ff9e64;
+      --t-com: #686680;
+      --t-self: #ff7ab2;
 
       --r-sm: 6px;
       --r-md: 10px;
@@ -78,8 +82,8 @@
     }
     [data-theme="light"] {
       --bg: #f3f2f0;
-      --glow: rgba(61,107,99,0.06);
-      --glow-2: rgba(94,89,134,0.04);
+      --glow: rgba(13,138,98,0.06);
+      --glow-2: rgba(124,77,219,0.04);
       --dot: rgba(20,18,30,0.05);
       --surface-0: #ecebe8;
       --surface: #fbfaf8;
@@ -90,18 +94,20 @@
       --text: #1c1b22;
       --text-2: #55535f;
       --text-3: #87859a;
-      --accent: #3d6b63;
-      --accent-2: #3d6b63;
+      --accent: #0d8a62;
+      --accent-2: #0b7a56;
       --accent-ink: #ffffff;
-      --accent-soft: rgba(61,107,99,0.10);
-      --teal: #5e5986;
-      --teal-soft: rgba(94,89,134,0.09);
-      --ok: #3f7a54;
-      --ok-soft: rgba(63,122,84,0.10);
-      --bad: #a3505c;
-      --bad-soft: rgba(163,80,92,0.09);
-      --warn: #8a6a2f;
-      --warn-soft: rgba(138,106,47,0.10);
+      --accent-soft: rgba(13,138,98,0.10);
+      --accent-fill: #0d6b4d;
+      --accent-fill-hover: #0f7a58;
+      --teal: #7c4ddb;
+      --teal-soft: rgba(124,77,219,0.09);
+      --ok: #16934f;
+      --ok-soft: rgba(22,147,79,0.10);
+      --bad: #d23c5a;
+      --bad-soft: rgba(210,60,90,0.09);
+      --warn: #b7791f;
+      --warn-soft: rgba(183,121,31,0.10);
       --code-border: rgba(20,18,50,0.14);
       --shadow: 0 18px 50px rgba(20,18,50,0.10);
       color-scheme: light;
@@ -315,16 +321,16 @@
     .code-head { display: flex; align-items: center; gap: 9px; padding: 7px 10px 7px 12px; background: var(--code-head); border-bottom: 1px solid var(--code-line); font: 0.72rem var(--mono); color: #86849a; }
     .dots { display: flex; gap: 5px; }
     .dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3852; }
-    .dots i:nth-child(1) { background: rgba(192,128,138,0.55); }
-    .dots i:nth-child(2) { background: rgba(191,159,104,0.55); }
-    .dots i:nth-child(3) { background: rgba(127,169,139,0.55); }
+    .dots i:nth-child(1) { background: rgba(255,92,122,0.55); }
+    .dots i:nth-child(2) { background: rgba(255,181,71,0.55); }
+    .dots i:nth-child(3) { background: rgba(74,222,128,0.55); }
     .fname { color: #bebcca; }
     .code-head .sp { flex: 1; }
     .lang { color: #6c6a89; }
     .copy { display: flex; align-items: center; gap: 5px; background: none; border: 0; color: #86849a; font: inherit; cursor: pointer; padding: 2px 6px; border-radius: 5px; }
     .copy .i { width: 13px; height: 13px; }
     .copy:hover { color: #fff; background: rgba(255,255,255,0.06); }
-    .copy.done { color: #7fa98b; }
+    .copy.done { color: #4ade80; }
     .code-body { overflow-x: auto; padding: 10px 0; font: 13.5px/1.7 var(--mono); color: var(--code-text); }
     .code-body, .diff .d-body, .term pre, .piece { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.16) transparent; }
     .code-body::-webkit-scrollbar, .diff .d-body::-webkit-scrollbar, .term pre::-webkit-scrollbar, .piece::-webkit-scrollbar { height: 6px; }
@@ -345,32 +351,32 @@
     .gap { color: var(--accent-2); }
     .pickable .ln[data-action] { cursor: pointer; transition: background .12s; }
     .pickable .ln[data-action]:hover { background: rgba(255,255,255,0.045); }
-    .ln.sel { background: rgba(111,159,150,0.16); box-shadow: inset 3px 0 0 #6f9f96; }
-    .ln.good { background: rgba(127,169,139,0.14); box-shadow: inset 3px 0 0 #7fa98b; }
-    .ln.wrong { background: rgba(192,128,138,0.14); box-shadow: inset 3px 0 0 #c0808a; }
+    .ln.sel { background: rgba(46,230,166,0.16); box-shadow: inset 3px 0 0 #2ee6a6; }
+    .ln.good { background: rgba(74,222,128,0.14); box-shadow: inset 3px 0 0 #4ade80; }
+    .ln.wrong { background: rgba(255,92,122,0.14); box-shadow: inset 3px 0 0 #ff5c7a; }
     .ln.ph .tx { color: var(--code-dim); font-style: italic; animation: blink 1.2s steps(2) infinite; }
 
     .blank {
-      font: 600 16px/1.2 var(--mono); color: #fff; background: rgba(111,159,150,0.14);
-      border: 0; border-bottom: 2px solid #6f9f96; border-radius: 4px 4px 0 0;
+      font: 600 16px/1.2 var(--mono); color: #fff; background: rgba(46,230,166,0.14);
+      border: 0; border-bottom: 2px solid #2ee6a6; border-radius: 4px 4px 0 0;
       padding: 1px 5px 0; outline: none; min-width: 4ch; vertical-align: baseline;
     }
-    .blank:focus { background: rgba(111,159,150,0.24); }
-    .blank.ok { background: rgba(127,169,139,0.16); border-color: #7fa98b; color: #cfe0d4; }
-    .blank.no { background: rgba(192,128,138,0.16); border-color: #c0808a; color: #e3c8cd; text-decoration: line-through; }
+    .blank:focus { background: rgba(46,230,166,0.24); }
+    .blank.ok { background: rgba(74,222,128,0.16); border-color: #4ade80; color: #c6f7dc; }
+    .blank.no { background: rgba(255,92,122,0.16); border-color: #ff5c7a; color: #ffd0d8; text-decoration: line-through; }
 
     .term { background: #07070d; border: 1px solid var(--code-border); border-radius: var(--r-md); margin: 12px 0; overflow: hidden; }
     .term-head { display: flex; align-items: center; gap: 7px; font: 700 0.64rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: #6c6a89; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .term-head .pr { color: #8e89ad; font-size: 0.8rem; letter-spacing: 0; }
-    .term pre { padding: 10px 14px; font: 13px/1.6 var(--mono); color: #bccdc6; overflow-x: auto; margin: 0; }
+    .term-head .pr { color: #b388ff; font-size: 0.8rem; letter-spacing: 0; }
+    .term pre { padding: 10px 14px; font: 13px/1.6 var(--mono); color: #b8f5dc; overflow-x: auto; margin: 0; }
 
     .diff { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: var(--r-md); margin: 12px 0; overflow: hidden; }
     .diff .d-body { overflow-x: auto; padding: 8px 0; font: 13.5px/1.7 var(--mono); color: var(--code-text); }
     .diff .d-del, .diff .d-add { white-space: pre; padding: 0 16px 0 0; width: max-content; min-width: 100%; display: flex; }
-    .diff .d-del { background: rgba(192,128,138,0.12); }
-    .diff .d-add { background: rgba(127,169,139,0.12); }
-    .diff .sg { width: 2.8em; flex: none; text-align: center; color: #c0808a; user-select: none; -webkit-user-select: none; }
-    .diff .d-add .sg { color: #7fa98b; }
+    .diff .d-del { background: rgba(255,92,122,0.12); }
+    .diff .d-add { background: rgba(74,222,128,0.12); }
+    .diff .sg { width: 2.8em; flex: none; text-align: center; color: #ff5c7a; user-select: none; -webkit-user-select: none; }
+    .diff .d-add .sg { color: #4ade80; }
 
     /* Options */
     .opts { display: grid; gap: 8px; margin-top: 14px; }
@@ -412,8 +418,9 @@
     }
     .btn:hover:not([disabled]) { border-color: var(--text-3); }
     .btn .i { width: 16px; height: 16px; }
-    .btn-primary { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
-    .btn-primary:hover:not([disabled]) { border-color: transparent; filter: brightness(1.08); }
+    .btn-primary { background: var(--accent-fill); border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--accent-2); }
+    [data-theme="light"] .btn-primary { color: #fff; }
+    .btn-primary:hover:not([disabled]) { background: var(--accent-fill-hover); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
     .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
     .btn-ghost:hover:not([disabled]) { color: var(--text); border-color: transparent; background: var(--surface-2); }
     .btn-bad { color: var(--bad); }
@@ -461,7 +468,7 @@
       background: var(--code-bg); color: var(--code-text); border: 1px solid var(--code-border);
       cursor: pointer; white-space: pre; overflow-x: auto; transition: border-color .12s, transform .12s;
     }
-    .piece:hover { border-color: #6f9f96; }
+    .piece:hover { border-color: #2ee6a6; }
     .piece:active { transform: scale(0.99); }
 
     /* Rapid */
@@ -536,7 +543,7 @@
     .set-row .lbl span { color: var(--text-2); font-size: 0.84rem; }
     .toggle { width: 46px; height: 28px; border-radius: 99px; border: 0; background: var(--surface-3); position: relative; cursor: pointer; flex: none; transition: background .2s; }
     .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s var(--ease); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-    .toggle.on { background: var(--accent); }
+    .toggle.on { background: var(--accent-fill); box-shadow: inset 0 0 0 1px var(--accent); }
     .toggle.on::after { transform: translateX(18px); }
     .sdot { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-3); flex: none; }
     .btn-row { display: flex; gap: 6px; }
@@ -569,7 +576,7 @@
 
     .toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 60; background: var(--text); color: var(--bg); font-weight: 600; font-size: 0.88rem; padding: 10px 16px; border-radius: 99px; box-shadow: var(--shadow); animation: up .3s var(--ease); white-space: nowrap; }
     .update-bar { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; border-radius: 99px; background: var(--surface); border: 1px solid var(--accent); box-shadow: var(--shadow); font-size: 0.9rem; white-space: nowrap; }
-    .update-bar button { border: 0; background: var(--accent); color: var(--accent-ink); font-weight: 700; padding: 8px 14px; border-radius: 99px; cursor: pointer; }
+    .update-bar button { border: 0; background: var(--accent-fill); color: var(--accent-2); font-weight: 700; padding: 8px 14px; border-radius: 99px; cursor: pointer; }
 
     .foot { text-align: center; margin-top: 18px; }
     .foot button { display: inline-grid; gap: 2px; background: none; border: 0; cursor: pointer; font: 0.74rem var(--mono); color: var(--text-3); padding: 6px; }
@@ -615,7 +622,7 @@
   <div class="wrap">
     <header class="top">
       <button class="brand" data-action="notice" aria-label="About glitch.rag">
-        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#25252f"/><stop offset="1" stop-color="#111116"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#lg)"/><rect x=".6" y=".6" width="38.8" height="38.8" rx="9.4" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="1.2"/><path d="M19 12.5l5.4 5.7M19 27.5l5.4-5.7" stroke="#6f9f96" stroke-opacity=".45" stroke-width="1.6" stroke-linecap="round"/><path d="M19 20h5" stroke="#6f9f96" stroke-width="1.9"/><rect x="7.5" y="10.3" width="11.5" height="4.4" rx="2.2" fill="#55536a"/><rect x="7.5" y="17.8" width="11.5" height="4.4" rx="2.2" fill="#b9b7c6"/><rect x="7.5" y="25.3" width="11.5" height="4.4" rx="2.2" fill="#55536a"/><circle cx="28.6" cy="20" r="4.6" fill="#6f9f96"/><circle cx="28.6" cy="20" r="1.7" fill="#111116"/></svg>
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#25252f"/><stop offset="1" stop-color="#111116"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#lg)"/><rect x=".6" y=".6" width="38.8" height="38.8" rx="9.4" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="1.2"/><path d="M19 12.5l5.4 5.7M19 27.5l5.4-5.7" stroke="#b388ff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/><path d="M19 20h5" stroke="#2ee6a6" stroke-width="1.9"/><rect x="7.5" y="10.3" width="11.5" height="4.4" rx="2.2" fill="#b388ff" fill-opacity=".7"/><rect x="7.5" y="17.8" width="11.5" height="4.4" rx="2.2" fill="#2ee6a6"/><rect x="7.5" y="25.3" width="11.5" height="4.4" rx="2.2" fill="#b388ff" fill-opacity=".7"/><circle cx="28.6" cy="20" r="4.6" fill="#2ee6a6"/><circle cx="28.6" cy="20" r="1.7" fill="#111116"/></svg>
         <span class="wm">glitch<em>.rag</em></span>
       </button>
       <div class="spacer"></div>
