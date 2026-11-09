@@ -1,25 +1,27 @@
 # Adding to Glitch RAG as you study
 
+Glitch RAG covers the **labs and assignments only**: the coding, not the lectures. One chapter per lab.
+
 The app is split in two:
 
 - **`index.html`** is the app. You don't need to touch it.
 - **`content/`** is the course: one file per module (`m1.js` … `m5.js`). This is what you edit.
 
-Module 1 is fully written. Modules 2 to 5 are **outlines**: each chapter has a title and a one-line description, and the app shows it as “not added yet”. Fill them in as you reach them.
+Module 1 is fully written. Modules 2 to 5 each have one **placeholder** chapter that the app shows as “not added yet”. When you do a module's labs, replace the placeholder with one chapter per lab, named after the lab.
 
 ## The fastest way: ask Claude
 
 When you finish a lab or assignment, send Claude the notebook with this message:
 
-> Write a Glitch RAG chapter for this notebook, in the exact format of `content/TEMPLATE.js`. It replaces the outline chapter `m2-keyword` in `content/m2.js` (keep that id). Include 5–7 lesson cards, 6 fill-ins, 5 output questions, 2 ordering puzzles, 3 debug questions, 4 pick-the-tool questions and 7 true/false statements. Use simple language, use the notebook's own code and function names, and run every output question to make sure the answer is exact.
+> Write a Glitch RAG chapter for this notebook, in the exact format of `content/TEMPLATE.js`. It goes in `content/m2.js`: replace the placeholder chapter `m2-labs` with it (give each lab chapter its own id, like `m2-lab1`). Include 5–7 lesson cards, 6 fill-ins, 5 output questions, 2 ordering puzzles, 3 debug questions, 4 pick-the-tool questions and 7 true/false statements. Use simple language, use the notebook's own code and function names, and run every output question to make sure the answer is exact.
 
-Paste the result over the outline chapter, run the check (below), and push.
+Paste the result over the placeholder (or after your last lab chapter), run the check (below), and push.
 
 ## Doing it yourself
 
 1. Open the module file, e.g. `content/m2.js`.
 2. Open `content/TEMPLATE.js` and copy the chapter between **COPY FROM HERE** and **TO HERE**.
-3. Paste it over the outline chapter you're filling in. Keep the outline's `id`.
+3. Paste it over the module's placeholder chapter (for the first lab), or after the last lab chapter. Give it its own `id`, like `m2-lab2`.
 4. Change the text. Every field is explained in the template.
 
 You can also rename, add or delete chapters in a module. To add a whole new module (say, a second course), copy `m5.js` to `m6.js`, change its `id`, `n` and `name`, and add one line to `index.html` next to the others:

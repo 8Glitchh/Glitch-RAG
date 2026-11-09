@@ -1,18 +1,12 @@
-/* Module 5: RAG systems in production
-   Outlines only. Fill them in when you get here (see ADDING.md). */
+/* Module 5: RAG Systems in Production
+   Glitch RAG covers the labs and assignments only (the coding), not the lectures.
+   When you do this module's labs, replace the placeholder below with one chapter per lab,
+   named after the lab. Copy the chapter shape from TEMPLATE.js (see ADDING.md). */
 
 addModule({
-  id: 'm5', n: '05', name: 'RAG in production', lib: 'monitoring · cost · security',
+  id: 'm5', n: '05', name: 'RAG in production', lib: 'labs not added yet',
   chapters: [
-    { id: 'm5-challenges', title: 'What changes in production', file: 'production.py',
-      blurb: "Real users, more data, and what tends to break." },
-    { id: 'm5-observability', title: 'Monitoring and observability', file: 'monitoring.py',
-      blurb: "Logging, tracing and evaluating a running RAG system." },
-    { id: 'm5-cost', title: 'Cost and speed', file: 'cost.py',
-      blurb: "Trading quality against latency and price, including quantization." },
-    { id: 'm5-security', title: 'Security and privacy', file: 'security.py',
-      blurb: "Keeping private documents private and handling untrusted input." },
-    { id: 'm5-multimodal', title: 'Multimodal RAG', file: 'multimodal.py',
-      blurb: "Retrieving images, tables and PDFs, not just text." },
+    { id: 'm5-labs', title: 'Module 5 labs', file: 'lab.py',
+      blurb: "One chapter per lab and assignment of RAG Systems in Production. Added when you get there." },
   ],
 });

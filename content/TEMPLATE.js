@@ -5,8 +5,7 @@
      1. Open the module file (content/m2.js for Module 2, and so on).
      2. Copy everything between COPY FROM HERE and TO HERE below.
      3. Paste it inside that module's  chapters: [ ... ]  list.
-        If you're filling in an outline chapter, replace the outline with it
-        (keep the outline's id so the chapter keeps its place).
+        For a module's first lab, replace its placeholder chapter (e.g. m2-labs).
      4. Change the text, then check it: run  node check.js  in the project
         folder, or open index.html in a browser and look for a yellow bar.
 

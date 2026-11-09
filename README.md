@@ -5,7 +5,7 @@ Each chapter has a short lesson, then seven ways to test yourself: fill in the m
 
 **Spaced review** brings every question you've answered back on a schedule: tomorrow, then after 3 days, a week, two weeks and a month. Get it wrong and it starts again at one day. The number in the top bar is how many are due today.
 
-It grows as you study. Module 1 is written; Modules 2 to 5 are outlines you fill in when you reach them. See **[ADDING.md](ADDING.md)**.
+It grows as you study. It covers the course's labs and assignments, the coding part, with one chapter per lab. Module 1 is written; Modules 2 to 5 get their chapters as you do their labs. See **[ADDING.md](ADDING.md)**.
 
 Runs entirely in the browser and works offline once installed; progress is saved on your device.
 

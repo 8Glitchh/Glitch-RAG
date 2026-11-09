@@ -1,5 +1,5 @@
 /* Module 1: RAG overview
-   Written from: Ungraded Lab 2 (LLM calls and augmented prompts) and the Module 1 assignment (BBC news RAG).
+   Lab material only: Ungraded Lab 2 (LLM calls and augmented prompts) and the Module 1 assignment (BBC news RAG).
    How to add or change things: see ADDING.md. Copy a chapter from TEMPLATE.js to start a new one. */
 
 addModule({
@@ -8,115 +8,8 @@ addModule({
 
   /* ------------------------------------------------------------------ */
   {
-    id: 'm1-idea', title: 'What RAG is', file: 'rag_idea.py',
-    source: 'Module 1 lectures',
-    blurb: "Why an LLM needs help, and the three parts that give it: a knowledge base, a retriever and an augmented prompt.",
-    learn: [
-      { h: "The problem RAG solves", p: "An LLM only knows what was in its training data. It knows **nothing after its training cutoff**, and it has never seen **your private data**: your company's documents, your notes. When it doesn't know, it often makes up something that sounds right. That's called a **hallucination**.",
-        code: py`
-          question = "What happened to the Moulin Rouge in April 2024?"
-          answer = llm(question)   # trained up to Dec 2023, so it can only guess`,
-        tip: "The model in the Module 1 assignment, Llama 3.1 8B, was trained on data up to December 2023. Every 2024 news story is invisible to it." },
-      { h: "The idea: look it up first", p: "RAG means **Retrieval-Augmented Generation**. Before the LLM answers, you **retrieve** the documents that are relevant to the question, **augment** the prompt by pasting them in, then let the LLM **generate** the answer from them. It's an open-book exam instead of answering from memory.",
-        code: py`
-          docs = retrieve(question)              # R: find relevant documents
-          prompt = build_prompt(question, docs)  # A: put them in the prompt
-          answer = llm(prompt)                   # G: generate the answer` },
-      { h: "The three parts", p: "**Knowledge base**: your documents, like news articles, PDFs or a database. **Retriever**: searches the knowledge base and returns the pieces most relevant to a query. **LLM**: reads the augmented prompt and writes the answer.",
-        tip: "The LLM itself doesn't change at all. RAG only changes what you put in the prompt." },
-      { h: "Why not just retrain the model?", p: "Training an LLM on new data is slow and expensive, and you'd have to do it again every time the data changes. With RAG you **update the knowledge base** instead: add a document today, and it can be retrieved today.",
-        code: py`
-          knowledge_base.append(todays_report)   # available to the next question, no retraining` },
-      { h: "What you get", p: "Answers based on **up-to-date** and **private** information, **fewer hallucinations** because the facts are right there in the prompt, and **sources you can cite**, because you know exactly which documents went in.",
-        tip: "RAG reduces hallucinations; it doesn't remove them. The model can still misread or ignore the documents." },
-      { h: "Where RAG is used", p: "Company chatbots that answer from internal documents, customer support over product manuals, code assistants that search your repository, medical and legal assistants that cite their sources, and AI web search, which retrieves web pages and then answers from them." },
-    ],
-    fill: [
-      { code: py`docs = {?}(question)   # find the relevant documents`, a: ['retrieve'], why: "The retriever searches the knowledge base for documents related to the question." },
-      { code: py`
-          # R = Retrieval
-          # A = {?}
-          # G = Generation`, a: ['Augmented', 'Augmentation'], why: "**Augmented**: the prompt is extended with the retrieved documents before the model sees it." },
-      { code: py`prompt = build_prompt(question, {?})   # paste the retrieved documents in`, a: ['docs'], why: "The documents you retrieved go into the prompt together with the question." },
-      { code: py`answer = llm({?})   # the model reads the question AND the documents`, a: ['prompt'], why: "Send the augmented prompt, not the bare question. Otherwise the model answers from memory." },
-      { code: py`
-          knowledge_base = ["storm report", "election report", "AI report"]
-          print({?}(knowledge_base))   # how many documents? prints 3`, a: ['len'], why: "`len` counts the items in a list." },
-      { code: py`
-          knowledge_base = ["storm report", "election report"]
-          knowledge_base.{?}("Olympics report")   # add a new document`, a: ['append'], why: "Adding a document is how a RAG system learns something new. No retraining needed." },
-    ],
-    output: [
-      { code: py`
-          steps = ["retrieve", "augment", "generate"]
-          print(steps[0])`, o: ['retrieve', 'augment', 'generate', 'Error'], a: 0, why: "Lists count from 0, and retrieval always comes first." },
-      { code: py`
-          cutoff = 2023
-          for year in [2022, 2023, 2024]:
-              print(year, year <= cutoff)`, o: ['2022 True\n2023 True\n2024 False', '2022 True\n2023 False\n2024 False', '2022 False\n2023 False\n2024 True', '2024 False'], a: 0, why: "Anything after the cutoff year is outside the model's knowledge. That gap is what RAG fills." },
-      { code: py`
-          question = "Who won?"
-          docs = "Team A won 3-1."
-          prompt = docs + "\n" + question
-          print(prompt)`, o: ['Team A won 3-1.\nWho won?', 'Team A won 3-1.\\nWho won?', 'Who won?\nTeam A won 3-1.', 'Team A won 3-1. Who won?'], a: 0, why: "`\"\\n\"` starts a new line, so the document and the question land on separate lines. Augmenting a prompt is just building a string like this." },
-      { code: py`
-          knowledge_base = ["storms", "elections", "AI"]
-          knowledge_base.append("Olympics")
-          print(len(knowledge_base))`, o: ['4', '3', '5', 'Error'], a: 0, why: "One new document, and the knowledge base now has 4. The model can use it on the very next question." },
-      { code: py`
-          sources = ["bbc.co.uk/news/1", "bbc.co.uk/news/2"]
-          print("Sources:", ", ".join(sources))`, o: ['Sources: bbc.co.uk/news/1, bbc.co.uk/news/2', "Sources: ['bbc.co.uk/news/1', 'bbc.co.uk/news/2']", 'Sources:, bbc.co.uk/news/1, bbc.co.uk/news/2', 'Sources: bbc.co.uk/news/1 bbc.co.uk/news/2'], a: 0, why: "Because you know which documents you retrieved, you can list them as sources. `join` glues the list into one string with `, ` between items." },
-    ],
-    order: [
-      { task: "Put the RAG steps in order.",
-        lines: ['question = "What happened in Nebraska?"', 'docs = retrieve(question)', 'prompt = build_prompt(question, docs)', 'answer = llm(prompt)', 'print(answer)'] },
-      { task: "Answer a question about a document the model has never seen.",
-        lines: ['document = "Our office opens at 9am on Saturdays."', 'question = "When does the office open on Saturday?"', 'prompt = f"Use this info: {document}\\nQuestion: {question}"', 'answer = llm(prompt)'],
-        alts: [[1, 0, 2, 3]] },
-    ],
-    debug: [
-      { task: "Answer using the retrieved documents.",
-        code: py`
-          question = "What happened in Nebraska?"
-          docs = retrieve(question)
-          prompt = build_prompt(question)
-          answer = llm(prompt)`,
-        line: 3, fix: 'prompt = build_prompt(question, docs)', why: "The documents are retrieved but never put in the prompt, so the model answers from memory. That isn't RAG." },
-      { task: "Retrieve documents for the user's question.",
-        code: py`
-          question = "Storms in the US"
-          docs = retrieve("question")
-          prompt = build_prompt(question, docs)`,
-        line: 2, fix: 'docs = retrieve(question)', why: "With quotes, you search for the word “question”, not for what the user asked. A variable name goes without quotes." },
-      { task: "Generate the answer from the augmented prompt.",
-        code: py`
-          docs = retrieve(question)
-          prompt = build_prompt(question, docs)
-          answer = llm(question)`,
-        line: 3, fix: 'answer = llm(prompt)', why: "The prompt with the documents was built, then the bare question was sent instead. Send `prompt`." },
-    ],
-    tools: [
-      { q: "Your chatbot must answer questions about your company's internal policy PDFs.", o: ['RAG: retrieve the relevant pages and put them in the prompt', 'Ask the LLM directly', 'Train a new LLM from scratch', 'Raise max_tokens'], a: 0, prose: true, why: "The LLM has never seen your PDFs. Retrieve the relevant parts and give them to it." },
-      { q: "The model gives confident but wrong answers about 2024 events.", o: ['Its training data ends before 2024: give it 2024 documents with RAG', 'The question is too short', 'Use a smaller model', 'Ask the same question again'], a: 0, prose: true, why: "That's a knowledge-cutoff problem. Only new information in the prompt fixes it." },
-      { q: "Which part of a RAG system finds the relevant documents?", o: ['The retriever', 'The LLM', 'The prompt', 'The knowledge base'], a: 0, why: "The knowledge base stores the documents; the retriever searches it." },
-      { q: "Your documents change every day.", o: ['Update the knowledge base; RAG uses the changes right away', 'Retrain the LLM every day', 'Paste every document into every prompt', 'Nothing: LLMs update themselves'], a: 0, prose: true, why: "That's one of RAG's biggest advantages: new documents are usable as soon as they're added." },
-    ],
-    tf: [
-      { s: "RAG stands for Retrieval-Augmented Generation.", a: true, why: "Retrieve documents, augment the prompt with them, generate the answer." },
-      { s: "RAG changes the weights of the LLM.", a: false, why: "The model stays exactly the same. RAG only changes what goes into the prompt." },
-      { s: "An LLM knows about events after its training cutoff.", a: false, why: "It only knows its training data. Later events have to be given to it in the prompt." },
-      { s: "With RAG you can show which documents an answer came from.", a: true, why: "You chose the documents, so you can list them as sources." },
-      { s: "RAG guarantees the model never hallucinates.", a: false, why: "It makes hallucinations less likely, but the model can still misread or ignore the documents." },
-      { s: "The retriever runs before the LLM.", a: true, why: "First find the documents, then give them to the model." },
-      { s: "To teach a RAG system something new, you add documents to the knowledge base.", a: true, why: "No retraining: the next query can retrieve the new document." },
-      { s: "A hallucination is when the model refuses to answer.", a: false, why: "It's when the model states something false, often confidently." },
-    ],
-  },
-
-  /* ------------------------------------------------------------------ */
-  {
     id: 'm1-python', title: "Python you'll need", file: 'basics.py',
-    source: 'Used in every lab and assignment',
+    source: 'The Python in Ungraded Lab 2 and the assignment',
     blurb: "Dictionaries, f-strings, loops, list comprehensions and `join`: the Python every RAG lab is built from.",
     learn: [
       { h: "Dictionaries: values by name", p: "A dictionary stores values under **keys**. Every news article and every house in the labs is a dictionary. Square brackets with the key give you the value.",
@@ -593,26 +486,12 @@ addModule({
           retrieve("storms in the US", top_k=1)   # just the best match
           retrieve("storms in the US", top_k=5)   # the 5 best, best first`,
         tip: "The assignment uses `top_k=5` by default." },
-      { h: "Searching by meaning: embeddings", p: "An **embedding model** turns text into a list of numbers called a **vector**. Texts with similar meanings get similar vectors. The assignment loads one called `BAAI/bge-base-en-v1.5`: that's what all those loading messages were.",
+      { h: "Searching by meaning: embeddings", p: "An **embedding model** turns text into a list of numbers called a **vector**. Texts with similar meanings get similar vectors, so the retriever can rank documents by how close their vectors are to the query's. The assignment loads one called `BAAI/bge-base-en-v1.5`: that's what all those loading messages were.",
         code: py`
           vec = model.encode("Large tornado seen in Nebraska")
           print(len(vec))   # bge-base gives 768 numbers per text`,
         out: "768",
-        tip: "Think of a vector as coordinates on a map of meaning: “tornado” and “severe storm” land close together." },
-      { h: "Similarity: how close are two vectors?", p: "The retriever embeds the query, compares it with every document's vector, and ranks them. The usual score is **cosine similarity**: close to 1 means similar meaning, close to 0 means unrelated.",
-        code: py`
-          import numpy as np
-
-          def cosine(a, b):
-              return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-          storm   = np.array([0.9, 0.1])
-          tornado = np.array([0.8, 0.2])
-          concert = np.array([0.1, 0.9])
-          print(round(float(cosine(storm, tornado)), 2))
-          print(round(float(cosine(storm, concert)), 2))`,
-        out: "0.99\n0.22",
-        tip: "Real embeddings have hundreds of numbers, but the maths is the same. Module 2 goes deeper." },
+        tip: "Think of a vector as coordinates on a map of meaning: “tornado” and “severe storm” land close together. How the retriever measures closeness is Module 2." },
       { h: "Meaning, not matching words", p: "Searching “Concerts in North America” returned an article about bands losing money on tour. It never says “concert”, but “tour” and “live music” mean something close. That's **semantic search**. A plain keyword search would have missed it.",
         tip: "It isn't perfect: that article was mostly about UK bands. The retriever returns what's **closest**, not what's **correct**." },
       { h: "One function for both steps", p: "Exercise 1 joins the two steps: query in, documents out. That's the **R** in RAG.",
@@ -631,9 +510,6 @@ addModule({
           relevant_indices = retrieve(query, top_k=top_k)
           relevant_data = {?}(relevant_indices)   # numbers → articles`, a: ['query_news'], why: "`query_news` turns positions into the actual articles." },
       { code: py`vec = model.{?}("Large tornado seen in Nebraska")   # text → vector`, a: ['encode'], why: "Embedding models from `sentence_transformers` use `encode`." },
-      { code: py`
-          def cosine(a, b):
-              return np.dot(a, b) / (np.linalg.{?}(a) * np.linalg.norm(b))`, a: ['norm'], why: "Cosine similarity divides the dot product by both vectors' lengths, `norm`." },
       { code: py`docs = get_relevant_data("AI news", top_k={?})   # only the single best article`, a: ['1'], why: "`top_k=1` returns just the best match." },
     ],
     output: [
@@ -645,16 +521,6 @@ addModule({
           scores = {"storm": 0.91, "concert": 0.12, "tornado": 0.88}
           ranked = sorted(scores, key=scores.get, reverse=True)
           print(ranked[:2])`, o: ["['storm', 'tornado']", "['concert', 'tornado']", "['storm', 'concert']", '[0.91, 0.88]'], a: 0, why: "That's ranking: sort by score, highest first (`reverse=True`), and keep the top 2. A retriever does the same with similarity scores." },
-      { code: py`
-          import numpy as np
-          a = np.array([1, 0])
-          b = np.array([1, 0])
-          print(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))`, o: ['1.0', '0.0', '2.0', '0.5'], a: 0, why: "Identical vectors point the same way: cosine similarity 1." },
-      { code: py`
-          import numpy as np
-          a = np.array([1, 0])
-          b = np.array([0, 1])
-          print(np.dot(a, b))`, o: ['0', '1', '2', '-1'], a: 0, why: "Vectors at right angles share nothing: the dot product is 0, so the similarity is 0. Unrelated meanings." },
       { code: py`
           def get_docs(query, top_k=5):
               return list(range(top_k))
@@ -689,7 +555,6 @@ addModule({
     tools: [
       { q: "Your answers miss information that's spread over several articles.", o: ['Raise top_k', 'Lower top_k to 1', 'Raise max_tokens', 'Remove the query'], a: 0, why: "More retrieved documents means more of the needed information reaches the prompt." },
       { q: "Turn a sentence into a vector.", o: ['An embedding model: model.encode(text)', 'An f-string', 'query_news', 'max_tokens'], a: 0, prose: true, why: "Embedding models map text to vectors that capture its meaning." },
-      { q: "Measure how similar two embeddings are.", o: ['Cosine similarity', 'len()', 'Comparing them with ==', 'Adding them up'], a: 0, why: "Cosine similarity compares the direction of two vectors." },
       { q: "Find articles about concerts that only use words like “tour” and “live music”.", o: ['Semantic search with embeddings', 'Keyword search for “concert”', 'A bigger LLM', 'Sorting by date'], a: 0, prose: true, why: "Semantic search matches meaning, so different words with the same meaning still match." },
     ],
     tf: [
@@ -697,7 +562,6 @@ addModule({
       { s: "`top_k=3` returns the 3 best matches.", a: true, why: "Best match first." },
       { s: "An embedding is a list of numbers that represents what a text means.", a: true, why: "Similar meanings get similar vectors." },
       { s: "Semantic search only finds documents that contain the exact words of the query.", a: false, why: "That's keyword search. Semantic search matches meaning." },
-      { s: "A cosine similarity near 1 means the two texts mean similar things.", a: true, why: "Their vectors point in nearly the same direction." },
       { s: "The retriever always returns the right document.", a: false, why: "It returns the closest ones by its measure, which can still be off." },
       { s: "A bigger `top_k` is always better.", a: false, why: "More documents means more noise, a longer prompt and higher cost." },
       { s: "The `BertModel LOAD REPORT` messages in the assignment mean something is broken.", a: false, why: "That's the embedding model loading. The note itself says the UNEXPECTED key can be ignored." },
