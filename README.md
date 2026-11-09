@@ -16,7 +16,7 @@ Runs entirely in the browser and works offline once installed; progress is saved
 | `index.html` | The app |
 | `content/m1.js` … `m5.js` | The course, one file per module. This is what you edit |
 | `content/TEMPLATE.js` | A chapter to copy from |
-| `content/_setup.js` | Loads and checks the content (no need to edit) |
+| `content/setup.js` | Loads and checks the content (no need to edit) |
 | `check.js` | `node check.js` finds mistakes in the content |
 | `sw.js` | Offline support |
 

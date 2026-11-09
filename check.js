@@ -17,7 +17,7 @@ const load = f => {
   ctx.__currentFile = f;
   new vm.Script(fs.readFileSync(path.join(root, f), 'utf8'), { filename: f }).runInContext(ctx);
 };
-load('content/_setup.js');
+load('content/setup.js');
 
 for (const f of files) {
   if (!fs.existsSync(path.join(root, f))) {

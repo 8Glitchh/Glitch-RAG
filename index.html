@@ -649,7 +649,7 @@
   <div id="overlay"></div>
 
   <!-- Course content. One file per module; to add a module, add a line here (see ADDING.md). -->
-  <script src="content/_setup.js"></script>
+  <script src="content/setup.js"></script>
   <script src="content/m1.js" data-content></script>
   <script src="content/m2.js" data-content></script>
   <script src="content/m3.js" data-content></script>
@@ -755,7 +755,7 @@
 
     /* ================= Index the content =================
        The lessons and questions live in content/*.js (see ADDING.md).
-       prepareContent (in content/_setup.js) checks them, skips anything broken,
+       prepareContent (in content/setup.js) checks them, skips anything broken,
        and lists the problems so the app can show them instead of going blank. */
     prepareContent([...document.querySelectorAll('script[data-content]')].map(s => s.getAttribute('src')));
     const TYPES = ['fill', 'output', 'order', 'debug', 'tools', 'tf'];
