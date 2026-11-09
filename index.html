@@ -25,8 +25,10 @@
   <style>
     :root {
       --bg: #0b0b10;
-      --glow: rgba(46,230,166,0.05);
-      --glow-2: rgba(179,136,255,0.05);
+      --glow: rgba(46,230,166,0.16);
+      --glow-2: rgba(179,136,255,0.14);
+      --pink: #ff6ec7;
+      --amber: #ffb547;
       --dot: rgba(255,255,255,0.035);
       --surface-0: #0e0e14;
       --surface: #121218;
@@ -82,8 +84,10 @@
     }
     [data-theme="light"] {
       --bg: #f3f2f0;
-      --glow: rgba(13,138,98,0.06);
-      --glow-2: rgba(124,77,219,0.04);
+      --glow: rgba(13,138,98,0.12);
+      --glow-2: rgba(124,77,219,0.10);
+      --pink: #c2338f;
+      --amber: #b7791f;
       --dot: rgba(20,18,30,0.05);
       --surface-0: #ecebe8;
       --surface: #fbfaf8;
@@ -134,7 +138,8 @@
       pointer-events: none;
       background:
         radial-gradient(900px 460px at 50% -160px, var(--glow), transparent 70%),
-        radial-gradient(520px 380px at 100% 0, var(--glow-2), transparent 70%),
+        radial-gradient(620px 420px at 100% 0, var(--glow-2), transparent 70%),
+        radial-gradient(520px 420px at 0 100%, color-mix(in srgb, var(--pink) 9%, transparent), transparent 70%),
         radial-gradient(var(--dot) 1px, transparent 1.3px) 0 0 / 22px 22px;
     }
     body.locked { overflow: hidden; }
@@ -164,7 +169,7 @@
     .brand { display: flex; align-items: center; gap: 10px; background: none; border: 0; cursor: pointer; padding: 4px; margin-left: -4px; border-radius: var(--r-md); }
     .mark { width: 34px; height: 34px; flex: none; }
     .wm { font: 700 1.1rem var(--mono); letter-spacing: -0.03em; color: var(--text); }
-    .wm em { font-style: normal; color: var(--accent-2); }
+    .wm em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--teal), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .spacer { flex: 1; }
     .chip {
       display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px;
@@ -198,8 +203,11 @@
     .track b { font-size: 0.93rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .track small { font: 0.7rem var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .track:hover:not(.on) { color: var(--text); background: var(--surface-2); }
-    .track.on { background: var(--surface-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
-    .track.on .n { color: var(--accent-2); }
+    .track { --mc: var(--accent); }
+    .track .n { color: color-mix(in srgb, var(--mc) 75%, var(--text-3)); }
+    .track.on { background: color-mix(in srgb, var(--mc) 12%, var(--surface-2)); color: var(--text); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mc) 55%, transparent), 0 0 24px -10px var(--mc); }
+    .track.on .n { color: var(--mc); }
+    .track.on b { color: var(--text); }
     .track { scroll-snap-align: start; }
     .track.soon:not(.on) { opacity: 0.55; }
 
@@ -244,7 +252,8 @@
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
       padding: 16px 16px 14px 10px; margin-bottom: 14px; position: relative; overflow: hidden;
     }
-    .cell::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: linear-gradient(var(--accent), var(--teal)); }
+    .cell::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: linear-gradient(var(--mc, var(--accent)), var(--teal)); box-shadow: 0 0 14px var(--mc, var(--accent)); }
+    .cell-gutter { color: var(--mc, var(--accent-2)) !important; }
     .cell-gutter { font: 600 0.78rem var(--mono); color: var(--accent-2); text-align: right; padding: 26px 10px 0 0; white-space: nowrap; }
     .cell-main { min-width: 0; }
     .crumb { display: flex; align-items: center; gap: 6px; min-height: 36px; margin-top: -6px; }
@@ -252,14 +261,14 @@
     .crumb .in { display: none; color: var(--accent-2); }
     .crumb i { font-style: normal; }
     .crumb .short { display: none; }
-    .cell h1 { font-size: 1.36rem; letter-spacing: -0.02em; line-height: 1.25; margin: 2px 0 4px; }
+    .cell h1 { font-size: 1.36rem; letter-spacing: -0.02em; line-height: 1.25; margin: 2px 0 4px; background: linear-gradient(90deg, var(--text) 30%, var(--mc, var(--accent-2))); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .cell p { color: var(--text-2); font-size: 0.93rem; }
     .cell-out { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
     .cell-out .lbl { font: 600 0.72rem var(--mono); color: var(--teal); white-space: nowrap; }
     .cell-out .pv { font: 600 0.78rem var(--mono); color: var(--text-2); min-width: 3ch; text-align: right; }
     .pass { font: 700 0.66rem var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ok); background: var(--ok-soft); padding: 3px 7px; border-radius: 5px; }
     .bar { flex: 1; height: 6px; background: var(--surface-3); border-radius: 99px; overflow: hidden; }
-    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--teal)); border-radius: inherit; transition: width .5s var(--ease); }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--mc, var(--accent)), var(--teal)); border-radius: inherit; transition: width .5s var(--ease); }
 
     /* ---------- Editor (mode tabs + pane + status bar) ---------- */
     .editor { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
@@ -286,7 +295,7 @@
     .tab:hover:not(.on) { color: var(--text-2); background: var(--surface); }
     .tab.on { background: var(--surface); color: var(--text); border-bottom-color: transparent; }
     .tab.on::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--accent); }
-    .tab.on .i { color: var(--accent-2); }
+    .tab.on .i { color: var(--mc, var(--accent-2)); }
     .badge { display: inline-flex; align-items: center; gap: 3px; font: 600 0.66rem var(--mono); color: var(--text-3); background: var(--surface-2); padding: 1px 6px; border-radius: 99px; }
     .badge .i { width: 11px; height: 11px; stroke-width: 2.6; }
     .badge.done { color: var(--ok); background: var(--ok-soft); }
@@ -306,7 +315,7 @@
 
     /* ---------- Pane content ---------- */
     .ptitle { display: flex; align-items: baseline; gap: 4px 10px; flex-wrap: wrap; margin-bottom: 14px; }
-    .ptitle b { font-size: 1.06rem; letter-spacing: -0.01em; }
+    .ptitle b { font-size: 1.06rem; letter-spacing: -0.01em; color: var(--mc, var(--accent-2)); }
     .ptitle span { color: var(--text-3); font-size: 0.86rem; }
     .qhead { display: flex; align-items: center; gap: 10px; margin: -2px 0 16px; font: 600 0.72rem var(--mono); color: var(--text-3); }
     .qhead .bar { height: 4px; }
@@ -367,7 +376,7 @@
 
     .term { background: #07070d; border: 1px solid var(--code-border); border-radius: var(--r-md); margin: 12px 0; overflow: hidden; }
     .term-head { display: flex; align-items: center; gap: 7px; font: 700 0.64rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: #6c6a89; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .term-head .pr { color: #b388ff; font-size: 0.8rem; letter-spacing: 0; }
+    .term-head .pr { color: var(--pink); font-size: 0.8rem; letter-spacing: 0; }
     .term pre { padding: 10px 14px; font: 13px/1.6 var(--mono); color: #b8f5dc; overflow-x: auto; margin: 0; }
 
     .diff { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: var(--r-md); margin: 12px 0; overflow: hidden; }
@@ -418,9 +427,9 @@
     }
     .btn:hover:not([disabled]) { border-color: var(--text-3); }
     .btn .i { width: 16px; height: 16px; }
-    .btn-primary { background: var(--accent-fill); border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--accent-2); }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--teal)); border-color: transparent; color: #0b0b10; box-shadow: 0 6px 22px -8px color-mix(in srgb, var(--accent) 70%, transparent); }
     [data-theme="light"] .btn-primary { color: #fff; }
-    .btn-primary:hover:not([disabled]) { background: var(--accent-fill-hover); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+    .btn-primary:hover:not([disabled]) { border-color: transparent; filter: brightness(1.1) saturate(1.1); }
     .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
     .btn-ghost:hover:not([disabled]) { color: var(--text); border-color: transparent; background: var(--surface-2); }
     .btn-bad { color: var(--bad); }
@@ -444,8 +453,9 @@
     .dnav button.seen i { background: var(--accent-soft); }
     .dnav button.on i { background: var(--accent); }
     .lesson h2 { font-size: 1.28rem; letter-spacing: -0.015em; line-height: 1.3; margin-bottom: 8px; }
+    .lesson p b, .stmt b, .fb p b { color: var(--accent-2); }
     .lesson p { color: var(--text-2); font-size: 0.98rem; }
-    .tip { display: flex; gap: 10px; padding: 11px 13px; border-radius: var(--r-md); background: var(--teal-soft); font-size: 0.92rem; margin-top: 12px; }
+    .tip { display: flex; gap: 10px; padding: 11px 13px; border-radius: var(--r-md); background: var(--teal-soft); box-shadow: inset 3px 0 0 var(--teal); font-size: 0.92rem; margin-top: 12px; }
     .tip .i { color: var(--teal); margin-top: 2px; }
 
     .center { text-align: center; }
@@ -543,7 +553,7 @@
     .set-row .lbl span { color: var(--text-2); font-size: 0.84rem; }
     .toggle { width: 46px; height: 28px; border-radius: 99px; border: 0; background: var(--surface-3); position: relative; cursor: pointer; flex: none; transition: background .2s; }
     .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s var(--ease); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-    .toggle.on { background: var(--accent-fill); box-shadow: inset 0 0 0 1px var(--accent); }
+    .toggle.on { background: linear-gradient(135deg, var(--accent), var(--teal)); }
     .toggle.on::after { transform: translateX(18px); }
     .sdot { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-3); flex: none; }
     .btn-row { display: flex; gap: 6px; }
@@ -576,7 +586,7 @@
 
     .toast { position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 60; background: var(--text); color: var(--bg); font-weight: 600; font-size: 0.88rem; padding: 10px 16px; border-radius: 99px; box-shadow: var(--shadow); animation: up .3s var(--ease); white-space: nowrap; }
     .update-bar { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; border-radius: 99px; background: var(--surface); border: 1px solid var(--accent); box-shadow: var(--shadow); font-size: 0.9rem; white-space: nowrap; }
-    .update-bar button { border: 0; background: var(--accent-fill); color: var(--accent-2); font-weight: 700; padding: 8px 14px; border-radius: 99px; cursor: pointer; }
+    .update-bar button { border: 0; background: linear-gradient(135deg, var(--accent), var(--teal)); color: #0b0b10; font-weight: 700; padding: 8px 14px; border-radius: 99px; cursor: pointer; }
 
     .foot { text-align: center; margin-top: 18px; }
     .foot button { display: inline-grid; gap: 2px; background: none; border: 0; cursor: pointer; font: 0.74rem var(--mono); color: var(--text-3); padding: 6px; }
@@ -913,6 +923,7 @@
 
       /* ---------- rendering ---------- */
       renderAll(anim) {
+        document.body.style.setProperty('--mc', this.modColor(this.track()));
         this.renderStreak();
         this.renderTracks();
         this.renderCell();
@@ -931,13 +942,18 @@
       },
       renderTracks() {
         $('#tracks').innerHTML = TRACKS.map(t => `
-          <button class="track ${t.id === Store.d.track ? 'on' : ''} ${this.isOutlineTrack(t) ? 'soon' : ''}" data-action="track" data-id="${t.id}" aria-pressed="${t.id === Store.d.track}">
+          <button class="track ${t.id === Store.d.track ? 'on' : ''} ${this.isOutlineTrack(t) ? 'soon' : ''}" style="--mc:${this.modColor(t)}" data-action="track" data-id="${t.id}" aria-pressed="${t.id === Store.d.track}">
             <span class="n">${t.n}<em>${this.isOutlineTrack(t) ? 'soon' : pct(this.trackProgress(t)) + '%'}</em></span>
             <b>${esc(t.name)}</b>
             <small>${esc(t.lib)}</small>
           </button>`).join('');
         const on = $('.track.on'), bar = $('#tracks');
         if (on && (on.offsetLeft < bar.scrollLeft || on.offsetLeft + on.offsetWidth > bar.scrollLeft + bar.clientWidth)) bar.scrollLeft = on.offsetLeft - 5;
+      },
+      // One colour per module. A module file can set its own with  color: '#ff6ec7'.
+      modColor(t) {
+        const MOD = ['var(--accent)', 'var(--teal)', 'var(--pink)', 'var(--amber)', '#ff7a5c', '#7ee081'];
+        return t.color || MOD[TRACKS.indexOf(t) % MOD.length];
       },
       renderContentAlert() {
         const errs = CONTENT_ERRORS.filter(x => x.level === 'error').length, warns = CONTENT_ERRORS.length - errs;
