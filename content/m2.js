@@ -28,33 +28,30 @@ addModule({
           print(vectors.shape)`,
         out: "(2, 768)",
         tip: "Encoding a list in one call is much faster than calling `encode` once per text in a loop." },
-      { h: "Cosine similarity: same direction?", p: "Cosine similarity compares the **angle** between two vectors: the dot product divided by both lengths. Close to **1** means very similar meaning. **Higher is better.**",
+      { h: "Cosine similarity: same direction?", p: "Cosine similarity compares the **angle** between two vectors. Close to **1** means very similar meaning. **Higher is better.** You don't write it yourself: the assignments import it ready-made.",
         code: py`
-          import numpy as np
+          from utils import cosine_similarity
 
-          def cosine(a, b):
-              return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-          print(round(float(cosine([1, 2], [1, 1])), 4))`,
-        out: "0.9487",
-        tip: "`np.dot` multiplies matching numbers and adds them up. `np.linalg.norm` is a vector's length." },
+          scores = cosine_similarity([1, 2], [1, 1])
+          print([round(float(s), 4) for s in scores])`,
+        out: "[0.9487]",
+        tip: "It always returns a **list** with one score per vector, even when you compare against just one. Take `[0]` to get the number." },
       { h: "Euclidean distance: how far apart?", p: "Euclidean distance is the straight-line distance between the two points. Close to **0** means very similar. **Lower is better**, the opposite of cosine.",
         code: py`
-          import numpy as np
+          from utils import euclidean_distance
 
-          def euclidean(a, b):
-              return np.sqrt(np.sum((np.array(a) - np.array(b)) ** 2))
-
-          print(float(euclidean([1, 2], [1, 1])))`,
-        out: "1.0" },
+          dists = euclidean_distance([1, 2], [1, 1])
+          print([round(float(d), 4) for d in dists])`,
+        out: "[1.0]",
+        tip: "Same shape as cosine: one vector first, then one vector or a list of vectors, and a list comes back." },
       { h: "The two metrics can disagree", p: "The lab compares `v1 = [1, 2]` with `[3, 2]` and `[5, 6]`. By **cosine**, `[5, 6]` is closer: it points in almost the same direction. By **Euclidean**, `[3, 2]` is closer: it's nearer as a point. Cosine ignores length; Euclidean doesn't.",
         code: py`
           v1 = [1, 2]
           array_v = [[3, 2], [5, 6]]
-          print([round(c, 3) for c in cosine_similarity(v1, array_v)])
-          print([round(d, 3) for d in euclidean_distance(v1, array_v)])`,
+          print([round(float(c), 3) for c in cosine_similarity(v1, array_v)])
+          print([round(float(d), 3) for d in euclidean_distance(v1, array_v)])`,
         out: "[0.868, 0.973]\n[2.0, 5.657]",
-        tip: "The lab's `cosine_similarity(v1, array_of_vectors)` always returns a **list**, one score per vector, even for a single vector. That's why the lab writes `[0]` after it." },
+        tip: "Pass a list of vectors as the second argument and you get one score per vector, in the same order." },
       { h: "Ranking documents with embeddings", p: "The lab's `retrieve_relevant` is a mini search engine: embed the query, embed the documents, score each one, then sort. Cosine sorts **descending** (`reverse=True`); Euclidean sorts **ascending**.",
         code: py`
           def retrieve_relevant(query, documents, metric='cosine_similarity'):
@@ -89,12 +86,8 @@ addModule({
     ],
     fill: [
       { code: py`res = model.{?}("RAG is awesome")   # text → vector`, a: ['encode'], why: "`model.encode(text)` returns the embedding." },
-      { code: py`
-          def cosine(a, b):
-              return np.{?}(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))`, a: ['dot'], why: "Cosine similarity is the dot product divided by both vectors' lengths." },
-      { code: py`
-          def euclidean(a, b):
-              return np.{?}(np.sum((a - b) ** 2))`, a: ['sqrt'], why: "Square the differences, add them up, then take the square root." },
+      { code: py`from utils import {?}   # the ready-made cosine function`, a: ['cosine_similarity'], why: "The assignments import `cosine_similarity` from `utils` instead of writing it." },
+      { code: py`score = cosine_similarity(apple_vec, fruit_vec){?}   # just the number, not a list`, a: ['[0]'], why: "It returns a list with one score per vector. With one vector, the score is at `[0]`." },
       { code: py`vals.sort(reverse={?}, key=lambda x: x[1])   # cosine: highest first`, a: ['True'], why: "Higher cosine means more similar, so sort descending." },
       { code: py`vals = [(doc, dist) for doc, dist in {?}(documents, distances)]   # pair each doc with its score`, a: ['zip'], why: "`zip` walks two lists side by side." },
       { code: py`pca = PCA(n_components={?})   # squeeze to 2D for a plot`, a: ['2'], why: "Two components means two numbers per text: an x and a y." },
@@ -102,23 +95,21 @@ addModule({
     ],
     output: [
       { code: py`
-          import numpy as np
-          a = np.array([1, 2])
-          b = np.array([3, 4])
-          print(np.dot(a, b))`, o: ['11', '10', '[3 8]', '24'], a: 0, why: "1×3 + 2×4 = 11. Multiply matching numbers, then add." },
+          from utils import cosine_similarity
+          print([round(float(s), 2) for s in cosine_similarity([1, 0], [5, 0])])`, o: ['[1.0]', '[0.2]', '[5.0]', '1.0'], a: 0, why: "Same direction, different lengths: cosine similarity is still 1, because it only looks at the angle. And it comes back as a list." },
+      { code: py`
+          from utils import euclidean_distance
+          print([round(float(d), 2) for d in euclidean_distance([1, 0], [5, 0])])`, o: ['[4.0]', '[0.0]', '[1.0]', '4.0'], a: 0, why: "Same direction, but the points are 4 apart. Euclidean distance cares about length; cosine doesn't." },
       { code: py`
           import numpy as np
-          print(float(np.linalg.norm([3, 4])))`, o: ['5.0', '7.0', '25.0', '12.0'], a: 0, why: "The length is √(3² + 4²) = √25 = 5." },
+          from utils import cosine_similarity
+          scores = cosine_similarity([1, 2], [[3, 2], [5, 6]])
+          print(int(np.argmax(scores)))`, o: ['1', '0', '2', '0.973'], a: 0, why: "Cosine scores are about 0.868 and 0.973, so the most similar vector is at position 1, `[5, 6]`." },
       { code: py`
           import numpy as np
-          a = np.array([1, 0])
-          b = np.array([5, 0])
-          print(float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))))`, o: ['1.0', '0.2', '5.0', '0.0'], a: 0, why: "Same direction, different lengths: cosine similarity is still 1, because it only looks at the angle." },
-      { code: py`
-          import numpy as np
-          a = np.array([1, 0])
-          b = np.array([5, 0])
-          print(float(np.sqrt(np.sum((a - b) ** 2))))`, o: ['4.0', '0.0', '1.0', '16.0'], a: 0, why: "Same direction, but the points are 4 apart. Euclidean distance cares about length; cosine doesn't." },
+          from utils import euclidean_distance
+          dists = euclidean_distance([1, 2], [[3, 2], [5, 6]])
+          print(int(np.argmin(dists)))`, o: ['0', '1', '2', '2.0'], a: 0, why: "Distances are 2.0 and about 5.66. For distance, the **smallest** wins: position 0, `[3, 2]`. The two metrics pick different vectors." },
       { code: py`
           scores = [("Santorini", 0.71), ("Kyoto", 0.64), ("Prague", 0.68)]
           scores.sort(reverse=True, key=lambda x: x[1])
@@ -135,9 +126,9 @@ addModule({
       { task: "Find the document closest in meaning to a query (cosine).",
         lines: ['query_emb = model.encode(query)', 'documents_emb = model.encode(documents)', 'scores = cosine_similarity(query_emb, documents_emb)', 'pairs = list(zip(documents, scores))', 'pairs.sort(reverse=True, key=lambda x: x[1])', 'print(pairs[0][0])'],
         alts: [[1, 0, 2, 3, 4, 5]] },
-      { task: "Write a cosine similarity function.",
-        lines: ['def cosine(a, b):', '    dot_product = np.dot(a, b)', '    norm_a = np.linalg.norm(a)', '    norm_b = np.linalg.norm(b)', '    return dot_product / (norm_a * norm_b)'],
-        alts: [[0, 1, 3, 2, 4], [0, 2, 3, 1, 4], [0, 3, 2, 1, 4], [0, 2, 1, 3, 4], [0, 3, 1, 2, 4]] },
+      { task: "Find the closest document by Euclidean distance.",
+        lines: ['from utils import euclidean_distance', 'query_emb = model.encode(query)', 'documents_emb = model.encode(documents)', 'distances = euclidean_distance(query_emb, documents_emb)', 'pairs = sorted(zip(documents, distances), key=lambda x: x[1])', 'print(pairs[0][0])'],
+        alts: [[0, 2, 1, 3, 4, 5]] },
     ],
     debug: [
       { task: "Rank documents by Euclidean distance, closest first.",
@@ -152,12 +143,12 @@ addModule({
           b = model.encode("fruit")
           print(f"{cosine_similarity(a, b):.4f}")`,
         line: 3, fix: 'print(f"{cosine_similarity(a, b)[0]:.4f}")', why: "The lab's `cosine_similarity` always returns a list, even for one vector. Take `[0]` before formatting the number." },
-      { task: "Compute cosine similarity.",
+      { task: "Pick the closest document by Euclidean distance.",
         code: py`
-          def cosine(a, b):
-              dot_product = np.dot(a, b)
-              return dot_product / (np.linalg.norm(a) + np.linalg.norm(b))`,
-        line: 3, fix: '    return dot_product / (np.linalg.norm(a) * np.linalg.norm(b))', why: "Divide by the **product** of the two lengths, not their sum." },
+          distances = euclidean_distance(query_emb, documents_emb)
+          best = documents[np.argmax(distances)]
+          print(best)`,
+        line: 2, fix: 'best = documents[np.argmin(distances)]', why: "For distance, smaller means closer. `argmax` picks the **farthest** document; use `argmin`." },
     ],
     tools: [
       { q: "Measure how similar two embeddings are in meaning, ignoring their lengths.", o: ['Cosine similarity', 'Euclidean distance', 'len()', 'np.array_equal'], a: 0, why: "Cosine only looks at the angle between the vectors." },
@@ -174,6 +165,8 @@ addModule({
       { s: "Embedding models rank by how texts are used together in training data, not by checking facts.", a: true, why: "That's why Kyoto wasn't top for an Asia question." },
       { s: "PCA is used in the lab to make embeddings more accurate.", a: false, why: "It's only for visualising: it squeezes vectors to 2D so they can be plotted." },
       { s: "`model.encode([\"apple\", \"car\"])` returns one vector per word.", a: true, why: "A list in gives a 2D array out, shape (2, 768)." },
+      { s: "In the assignments you import `cosine_similarity` instead of writing it yourself.", a: true, why: "Assignment 2 imports it from `utils`; later work uses ready-made library functions." },
+      { s: "`cosine_similarity(a, b)` returns a single number when b is one vector.", a: false, why: "It always returns a list. Use `[0]` for the number." },
     ],
   },
 
